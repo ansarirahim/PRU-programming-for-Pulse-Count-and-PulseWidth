@@ -24,6 +24,7 @@ void displayDistance(unsigned int raw_distance){
    float distcm = ((float)raw_distance / (100 * 58));
    printf("Distance is %f inches (%f cm)             \r", distin, distcm);
 }
+
 #define PRU0_DRAM   0x00000
 volatile unsigned int *shared = (unsigned int *)(PRU0_DRAM);
 
@@ -33,21 +34,13 @@ int y;
     void *map_base, *virt_addr;
     unsigned long read_result, writeval;
     unsigned int numberOutputSamples = 2;
-    off_t target = 0x4a300008;
-y=atoi(argv[1]);//
- // The number of samples
-//// shared[0] = 5;
-   // Sample delay in ms
- ////shared[1] = 20;
-    if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1){
+    off_t target = 0x4a300008;  if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1){
         printf("Failed to open memory!\n");
         return -1;
     }
     fflush(stdout);
 
     map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, target & ~MAP_MASK);
-    if(map_base == (void *) -1) {
- map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, target & ~MAP_MASK);
     if(map_base == (void *) -1) {
        printf("Failed to map base address\n");
        return -1;
@@ -73,4 +66,7 @@ y=atoi(argv[1]);//
     }
     close(fd);
     return 0;
-    }
+}
+
+
+y=atoi(argv[1]);//
